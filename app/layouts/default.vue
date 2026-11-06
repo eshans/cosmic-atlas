@@ -2,7 +2,7 @@
 const sections = [
   { label: 'Today', to: '/' },
   { label: 'Solar System', to: '/solar-system' },
-  { label: 'Exoplanets', soon: true },
+  { label: 'Exoplanets', to: '/exoplanets' },
   { label: 'Black Holes', soon: true },
 ]
 
@@ -54,7 +54,7 @@ onMounted(() => {
         </template>
       </nav>
 
-      <div class="mono flex items-center gap-2 rounded-full bg-ion/6 px-3.5 py-1.5 whitespace-nowrap text-ion tabular-nums" aria-label="Current UTC time">
+      <div class="mono hidden items-center gap-2 rounded-full bg-ion/6 px-3.5 py-1.5 whitespace-nowrap text-ion tabular-nums sm:flex" aria-label="Current UTC time">
         <span class="size-1.75 animate-ping-soft rounded-full bg-ion" />
         {{ clock }} <span class="hidden text-faint sm:inline">UTC</span>
       </div>

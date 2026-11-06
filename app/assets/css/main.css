@@ -183,6 +183,9 @@
     padding: 0.9rem 1rem;
   }
 
+  /* SVG text halo so labels stay legible over dense chart marks */
+  .label-halo { paint-order: stroke; stroke: var(--color-void); stroke-width: 3px; stroke-linejoin: round; }
+
   /* scroll-in reveal (driven by the v-reveal directive) */
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s var(--ease-expo), transform 0.9s var(--ease-expo); }
   .reveal.is-visible { opacity: 1; transform: none; }

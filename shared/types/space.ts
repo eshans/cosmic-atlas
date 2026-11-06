@@ -79,3 +79,17 @@ export interface IssPosition {
   visibility: string
   timestamp: number
 }
+
+/**
+ * Exoplanets, sent as compact rows to keep the payload small (~6k planets).
+ * [name, host, discYear, methodIndex, facility, periodDays, radiusEarth, massEarth, eqTempK, distPc, planetsInSystem]
+ */
+export type ExoplanetRow = [
+  string, string, number, number, string, number, number, number | null, number | null, number | null, number | null,
+]
+
+export interface ExoplanetCatalog {
+  total: number // confirmed planets in the archive, including ones without a radius or period
+  methods: string[] // methodIndex → discovery method name
+  rows: ExoplanetRow[] // planets with both a radius and an orbital period
+}
