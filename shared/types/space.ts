@@ -93,3 +93,20 @@ export interface ExoplanetCatalog {
   methods: string[] // methodIndex → discovery method name
   rows: ExoplanetRow[] // planets with both a radius and an orbital period
 }
+
+/** A compact-object merger heard in gravitational waves (LIGO/Virgo/KAGRA). Masses in Suns. */
+export interface Merger {
+  name: string // e.g. GW150914
+  time: string // ISO, UTC
+  kind: 'bbh' | 'nsbh' | 'bns' // black hole pair, black hole + neutron star, neutron star pair
+  m1: number
+  m2: number
+  final: number | null // remnant mass, when the catalog estimates it
+  distanceMpc: number | null
+  catalog: string
+  url: string // GWOSC event page
+}
+
+export interface MergerCatalog {
+  mergers: Merger[] // one entry per event, oldest first
+}

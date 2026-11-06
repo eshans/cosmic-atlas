@@ -3,7 +3,7 @@ const sections = [
   { label: 'Today', to: '/' },
   { label: 'Solar System', to: '/solar-system' },
   { label: 'Exoplanets', to: '/exoplanets' },
-  { label: 'Black Holes', soon: true },
+  { label: 'Black Holes', to: '/black-holes' },
 ]
 
 // live UTC clock (client only, so there's no server/browser mismatch)
@@ -35,23 +35,16 @@ onMounted(() => {
         <span class="hidden text-ink sm:inline">Cosmic<b class="font-bold">Atlas</b></span>
       </NuxtLink>
 
-      <nav class="ml-auto flex gap-0.5 md:mx-auto" aria-label="Sections">
-        <template v-for="s in sections" :key="s.label">
-          <NuxtLink
-            v-if="s.to"
-            :to="s.to"
-            class="rounded-full px-3.5 py-1.5 text-sm font-medium text-dim no-underline transition-colors hover:text-ink aria-[current=page]:bg-sol aria-[current=page]:text-void"
-          >
-            {{ s.label }}
-          </NuxtLink>
-          <span
-            v-else
-            aria-disabled="true"
-            class="hidden cursor-default rounded-full px-3.5 py-1.5 text-sm font-medium text-faint md:inline"
-          >
-            {{ s.label }}<i class="ml-1 align-super font-mono text-2xs tracking-widest text-ion/70 uppercase not-italic">soon</i>
-          </span>
-        </template>
+      <!-- scrolls sideways on phones, where four links don't fit -->
+      <nav class="ml-auto flex min-w-0 gap-0.5 overflow-x-auto [scrollbar-width:none] md:mx-auto" aria-label="Sections">
+        <NuxtLink
+          v-for="s in sections"
+          :key="s.label"
+          :to="s.to"
+          class="shrink-0 rounded-full px-3 py-1.5 text-sm font-medium whitespace-nowrap text-dim no-underline transition-colors hover:text-ink aria-[current=page]:bg-sol aria-[current=page]:text-void sm:px-3.5"
+        >
+          {{ s.label }}
+        </NuxtLink>
       </nav>
 
       <div class="mono hidden items-center gap-2 rounded-full bg-ion/6 px-3.5 py-1.5 whitespace-nowrap text-ion tabular-nums sm:flex" aria-label="Current UTC time">
@@ -71,6 +64,8 @@ onMounted(() => {
         <a href="https://epic.gsfc.nasa.gov" target="_blank" rel="noopener" class="text-dim hover:text-sol">NASA EPIC</a> ·
         <a href="https://ssd-api.jpl.nasa.gov" target="_blank" rel="noopener" class="text-dim hover:text-sol">JPL SSD</a> ·
         <a href="https://www.swpc.noaa.gov" target="_blank" rel="noopener" class="text-dim hover:text-sol">NOAA SWPC</a> ·
+        <a href="https://exoplanetarchive.ipac.caltech.edu" target="_blank" rel="noopener" class="text-dim hover:text-sol">NASA Exoplanet Archive</a> ·
+        <a href="https://gwosc.org" target="_blank" rel="noopener" class="text-dim hover:text-sol">GWOSC</a> ·
         <a href="https://wheretheiss.at" target="_blank" rel="noopener" class="text-dim hover:text-sol">wheretheiss.at</a>
       </p>
     </footer>
