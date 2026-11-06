@@ -1,0 +1,195 @@
+@import 'tailwindcss';
+
+/* Design tokens → Tailwind theme (e.g. bg-void, text-sol, border-line, font-display, rounded-panel). */
+@theme {
+  --color-void: #05040f;
+  --color-night: #0b0a1f;
+  --color-panel: rgb(18 16 44 / 0.58);
+  --color-panel-hover: rgb(26 23 62 / 0.7);
+  --color-line: rgb(168 158 255 / 0.13);
+  --color-line-strong: rgb(168 158 255 / 0.3);
+
+  --color-ink: #eeebff;
+  --color-dim: #a29dcc;
+  --color-faint: #67629a;
+
+  --color-sol: #ffb547; /* solar amber: primary accent */
+  --color-sol-glow: rgb(255 181 71 / 0.35);
+  --color-ion: #7cf3ff; /* ion cyan: data / live */
+  --color-ion-glow: rgb(124 243 255 / 0.3);
+  --color-nova: #ff5d8f; /* hazard / storm */
+  --color-nova-glow: rgb(255 93 143 / 0.35);
+  --color-flare-c: #ffe08a;
+
+  --font-display: 'Unbounded', system-ui, sans-serif;
+  --font-sans: 'Instrument Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --radius-panel: 22px;
+  --spacing-panel: clamp(20px, 3vw, 32px); /* panel padding: p-panel, px-panel */
+  --text-2xs: 0.625rem; /* tiny mono labels */
+
+  /* glows: text-shadow-glow / inset-shadow-glow, colored with text-shadow-* / inset-shadow-* */
+  --text-shadow-glow: 0 0 24px;
+  --inset-shadow-glow: inset 0 0 60px;
+  --ease-expo: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-ping-soft: ping-soft 2s infinite;
+
+  @keyframes shimmer {
+    from { background-position: 100% 0; }
+    to { background-position: -100% 0; }
+  }
+  @keyframes ping-soft {
+    0% { box-shadow: 0 0 0 0 var(--color-ion-glow); }
+    70% { box-shadow: 0 0 0 8px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+}
+
+/* Page gutter + max width */
+@utility wrap {
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 48px);
+}
+
+@layer base {
+  html { color-scheme: dark; scroll-behavior: smooth; }
+
+  body {
+    min-height: 100vh;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    background:
+      radial-gradient(1200px 700px at 8% -10%, rgb(98 60 220 / 0.28), transparent 60%),
+      radial-gradient(900px 600px at 100% 30%, rgb(255 140 60 / 0.08), transparent 60%),
+      radial-gradient(800px 800px at 40% 120%, rgb(40 140 255 / 0.12), transparent 60%),
+      var(--color-void);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* film grain */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  ::selection { background: var(--color-sol); color: var(--color-void); }
+
+  :focus-visible { outline: 2px solid var(--color-ion); outline-offset: 3px; border-radius: 6px; }
+}
+
+/* Multi-part pieces that would be noisy as utility strings. Being in the components layer,
+   any utility on the same element (p-0, text-2xs, rounded-full…) overrides them without `!`. */
+@layer components {
+  /* small uppercase monospace label */
+  .mono {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .panel {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-panel);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-panel);
+    backdrop-filter: blur(18px) saturate(140%);
+    padding: var(--spacing-panel);
+  }
+  /* faint top highlight */
+  .panel::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.18), transparent);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ion);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 10px currentColor;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.6em 1.1em;
+    border-radius: 999px;
+    border: 1px solid var(--color-line-strong);
+    background: rgb(10 8 30 / 0.45);
+    backdrop-filter: blur(10px);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.25s, background 0.25s, color 0.25s, transform 0.25s var(--ease-expo);
+  }
+  .btn:hover:not(:disabled) { border-color: var(--color-sol); color: var(--color-sol); transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .skeleton {
+    border-radius: 12px;
+    background: linear-gradient(100deg, rgb(255 255 255 / 0.03) 30%, rgb(255 255 255 / 0.08) 50%, rgb(255 255 255 / 0.03) 70%);
+    background-size: 300% 100%;
+    animation: var(--animate-shimmer);
+  }
+
+  .error-note {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-nova);
+    border: 1px dashed rgb(255 93 143 / 0.4);
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+  }
+
+  /* scroll-in reveal (driven by the v-reveal directive) */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s var(--ease-expo), transform 0.9s var(--ease-expo); }
+  .reveal.is-visible { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  .reveal { opacity: 1; transform: none; }
+}
