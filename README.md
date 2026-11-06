@@ -23,7 +23,7 @@ No API keys or `.env` needed.
 
 ## Deploy (Cloudflare Workers)
 
-Live at https://cosmic-atlas.cosmic-atlas.workers.dev
+Live at https://cosmic-atlas.shans-projects.workers.dev
 
 ```bash
 npx wrangler login   # once
