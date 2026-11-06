@@ -66,5 +66,5 @@ export default defineCachedEventHandler(
         })),
     }
   },
-  { name: 'space-weather', maxAge: 60 * 10, swr: true },
+  { base: 'kv', name: 'space-weather', maxAge: 60 * 10, swr: true },
 )

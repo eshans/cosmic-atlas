@@ -14,7 +14,7 @@ interface RawEpic {
 // The list of days with imagery changes at most a few times a day.
 const availableDays = defineCachedFunction(
   () => upstreamFetch<string[]>('NASA EPIC', `${EPIC}/api/natural/available`).then((d) => [...d].sort()),
-  { name: 'epic-available', maxAge: 60 * 60, swr: true },
+  { base: 'kv', name: 'epic-available', maxAge: 60 * 60, swr: true },
 )
 
 export default defineCachedEventHandler(
@@ -57,6 +57,7 @@ export default defineCachedEventHandler(
   },
   {
     name: 'earth',
+    base: 'kv',
     maxAge: 60 * 60,
     swr: true,
     getKey: (event) => String(getQuery(event).date ?? 'latest'),

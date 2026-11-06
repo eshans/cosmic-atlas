@@ -65,5 +65,5 @@ export default defineCachedEventHandler(
     asteroids.sort((a, b) => a.approachEpoch - b.approachEpoch)
     return { start, end, asteroids }
   },
-  { name: 'asteroids', maxAge: 60 * 60 * 3, swr: true, getKey: () => isoDay(0) },
+  { base: 'kv', name: 'asteroids', maxAge: 60 * 60 * 3, swr: true, getKey: () => isoDay(0) },
 )

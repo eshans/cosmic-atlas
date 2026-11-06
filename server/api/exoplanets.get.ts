@@ -54,5 +54,5 @@ export default defineCachedEventHandler(
     return { total: raw.length, methods, rows }
   },
   // The archive updates about weekly; serve the cached copy (even if stale) while refreshing.
-  { name: 'exoplanets', maxAge: 60 * 60 * 24, swr: true },
+  { base: 'kv', name: 'exoplanets', maxAge: 60 * 60 * 24, swr: true },
 )

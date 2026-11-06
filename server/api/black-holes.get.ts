@@ -63,5 +63,5 @@ export default defineCachedEventHandler(
     return { mergers }
   },
   // New catalogs land a few times a year.
-  { name: 'black-holes', maxAge: 60 * 60 * 24, swr: true },
+  { base: 'kv', name: 'black-holes', maxAge: 60 * 60 * 24, swr: true },
 )

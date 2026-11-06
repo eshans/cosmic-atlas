@@ -7,6 +7,12 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   vite: { plugins: [tailwindcss()] },
 
+  // On Cloudflare, cached API routes that opt in with `base: 'kv'` persist in Workers KV, so the cache is
+  // shared across instances and survives upstream outages. Elsewhere that mount falls back to memory.
+  nitro: process.env.NITRO_PRESET?.startsWith('cloudflare')
+    ? { storage: { kv: { driver: 'cloudflare-kv-binding', binding: 'CACHE' } } }
+    : {},
+
   app: {
     head: {
       htmlAttrs: { lang: 'en' },
